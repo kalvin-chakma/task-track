@@ -35,7 +35,7 @@ export default function SignInPage() {
       document.cookie = `token=${data.token}; path=/`;
 
       // Redirect to home page
-      router.push('/');
+      router.push('/home');
     } catch (err: any) {
       setError(err.message);
     }

@@ -26,5 +26,5 @@ export function middleware(request: NextRequest) {
 
 // Configure which paths the middleware should run on
 export const config = {
-  matcher: ["/", "/signin", "/signup", "/api/tasks/:path*"],
+  matcher: ["/", "/home", "/signin", "/signup", "/api/tasks/:path*"],
 };
