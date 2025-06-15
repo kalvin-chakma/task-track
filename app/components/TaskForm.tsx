@@ -1,6 +1,6 @@
-'use client'
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-import { Task, TaskFormData, TaskStatus } from '../types/task';
+"use client";
+import { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import { Task, TaskFormData } from "../types";
 
 interface TaskFormProps {
   task?: Task;
@@ -10,13 +10,13 @@ interface TaskFormProps {
 
 const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
   const [formData, setFormData] = useState<TaskFormData>({
-    title: '',
-    description: '',
-    dueDate: '',
-    status: 'TODO',
+    title: "",
+    description: "",
+    dueDate: "",
+    status: "TODO",
   });
 
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     if (task) {
@@ -31,19 +31,19 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     // Validate form data
     if (!formData.title.trim()) {
-      setError('Title is required');
+      setError("Title is required");
       return;
     }
     if (!formData.description.trim()) {
-      setError('Description is required');
+      setError("Description is required");
       return;
     }
     if (!formData.dueDate) {
-      setError('Due date is required');
+      setError("Due date is required");
       return;
     }
 
@@ -64,75 +64,90 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 p-4 bg-white rounded-lg shadow">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full max-w-2xl mx-auto space-y-4 p-4 bg-white rounded-lg shadow flex flex-col justify-between"
+    >
       {error && (
         <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
           {error}
         </div>
       )}
+      <div className="space-y-3">
+        <div>
+          <label
+            htmlFor="title"
+            className="text-sm font-medium text-gray-700 ml-1"
+          >
+            Task Title
+          </label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            required
+            className="mt-1 w-full rounded-md border p-2"
+          />
+        </div>
 
-      <div>
-        <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-          Title
-        </label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        />
+        <div>
+          <label
+            htmlFor="description"
+            className="text-sm font-medium text-gray-700 ml-1"
+          >
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            rows={4}
+            className="mt-1 w-full rounded-md border p-2"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="dueDate"
+            className="block text-sm font-medium text-gray-700 ml-1"
+          >
+            Due Date
+          </label>
+          <input
+            type="date"
+            id="dueDate"
+            name="dueDate"
+            value={formData.dueDate}
+            onChange={handleChange}
+            required
+            className="mt-1 w-full rounded-md border p-2"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-gray-700 ml-1"
+          >
+            Status
+          </label>
+          <select
+            id="status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            className="mt-1 w-full rounded-md border p-2"
+          >
+            <option value="TODO">To Do</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="COMPLETED">Completed</option>
+          </select>
+        </div>
       </div>
-
-      <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-          Description
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-          rows={3}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700">
-          Due Date
-        </label>
-        <input
-          type="date"
-          id="dueDate"
-          name="dueDate"
-          value={formData.dueDate}
-          onChange={handleChange}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-          Status
-        </label>
-        <select
-          id="status"
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        >
-          <option value="TODO">To Do</option>
-          <option value="IN_PROGRESS">In Progress</option>
-          <option value="COMPLETED">Completed</option>
-        </select>
-      </div>
-
       <div className="flex justify-end space-x-2">
         <button
           type="button"
@@ -145,11 +160,11 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
           type="submit"
           className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
-          {task ? 'Update Task' : 'Create Task'}
+          {task ? "Update Task" : "Create Task"}
         </button>
       </div>
     </form>
   );
 };
 
-export default TaskForm; 
+export default TaskForm;

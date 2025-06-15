@@ -8,27 +8,21 @@ export interface User {
 }
 
 export interface Task {
-  id: string;
+  _id?: string;
   title: string;
   description: string;
-  status: "TODO" | "IN_PROGRESS" | "COMPLETED";
-  priority: "LOW" | "MEDIUM" | "HIGH";
-  dueDate: Date;
-  userId: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
-  error?: string;
-}
-
-export interface AuthResponse {
-  token: string;
-  user: Omit<User, "password">;
+  dueDate: string;
+  status: TaskStatus;
+  userId?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "COMPLETED";
-export type TaskPriority = "LOW" | "MEDIUM" | "HIGH";
+
+export interface TaskFormData {
+  title: string;
+  description: string;
+  dueDate: string;
+  status: TaskStatus;
+}
