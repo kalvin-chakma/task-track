@@ -202,7 +202,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
                           <div className="flex justify-end space-x-2 mt-4">
                             <button
                               onClick={() => onEditTask(task)}
-                              className="text-blue-500 hover:text-blue-700 transition-colors duration-200"
+                              className="text-green-500 hover:text-green-700 transition-colors duration-200"
                             >
                               <FaEdit />
                             </button>

@@ -17,6 +17,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
   });
 
   const [error, setError] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -30,21 +31,25 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
     }
   }, [task]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     // Validate form data
     if (!formData.title.trim()) {
       setError("Title is required");
+      setIsLoading(false);
       return;
     }
     if (!formData.description.trim()) {
       setError("Description is required");
+      setIsLoading(false);
       return;
     }
     if (!formData.dueDate) {
       setError("Due date is required");
+      setIsLoading(false);
       return;
     }
 
@@ -54,7 +59,11 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
       dueDate: new Date(formData.dueDate).toISOString(),
     };
 
-    onSubmit(formattedData);
+    try {
+      await onSubmit(formattedData);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (
@@ -159,9 +168,16 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
         </button>
         <button
           type="submit"
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          disabled={isLoading}
+          className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {task ? "Update Task" : "Create Task"}
+          {isLoading
+            ? task
+              ? "Updating..."
+              : "Creating..."
+            : task
+            ? "Update Task"
+            : "Create Task"}
         </button>
       </div>
     </form>
