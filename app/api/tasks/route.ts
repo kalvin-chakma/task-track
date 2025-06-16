@@ -75,7 +75,6 @@ export async function GET(req: Request) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
       userId: string;
     };
-    console.log("Fetching tasks for user:", decoded.userId);
 
     await connectDB();
     const tasks = await Task.find({ userId: decoded.userId })

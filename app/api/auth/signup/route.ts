@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import connectDB from '@/app/lib/db';
-import User from '@/app/models/User';
-import jwt from 'jsonwebtoken';
+import { NextResponse } from "next/server";
+import connectDB from "@/app/lib/db";
+import User from "@/app/models/User";
+import jwt from "jsonwebtoken";
 
 export async function POST(req: Request) {
   try {
@@ -9,11 +9,11 @@ export async function POST(req: Request) {
 
     await connectDB();
 
-    // Check if user already exists
+    // Check if user already exists by email only
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
-        { error: 'User already exists' },
+        { error: "User with this email already exists" },
         { status: 400 }
       );
     }
@@ -26,28 +26,23 @@ export async function POST(req: Request) {
     });
 
     // Generate JWT token
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET!,
-      { expiresIn: '7d' }
-    );
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
+      expiresIn: "7d",
+    });
 
     return NextResponse.json(
-      { 
-        message: 'Sign up successful',
+      {
+        message: "Sign up successful",
         token,
         user: {
           id: user._id,
           email: user.email,
-          name: user.name
-        }
+          name: user.name,
+        },
       },
       { status: 201 }
     );
   } catch (error: any) {
-    return NextResponse.json(
-      { error: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
-} 
+}

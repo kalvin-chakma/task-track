@@ -21,6 +21,7 @@ export interface Task {
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "COMPLETED";
 
 export interface TaskFormData {
+  _id?: string;
   title: string;
   description: string;
   dueDate: string;

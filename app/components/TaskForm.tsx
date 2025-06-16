@@ -21,6 +21,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
   useEffect(() => {
     if (task) {
       setFormData({
+        _id: task._id,
         title: task.title,
         description: task.description,
         dueDate: task.dueDate,

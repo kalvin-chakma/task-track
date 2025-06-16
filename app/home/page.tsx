@@ -63,6 +63,9 @@ const HomePage = () => {
   const handleEditTask = async (task: Task) => {
     try {
       setError("");
+      if (!task._id) {
+        throw new Error("Task ID is missing");
+      }
       const response = await fetch(`/api/tasks/${task._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

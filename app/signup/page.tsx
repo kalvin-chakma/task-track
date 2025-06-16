@@ -13,10 +13,12 @@ export default function SignUpPage() {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true); // Start loading
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
@@ -46,9 +48,10 @@ export default function SignUpPage() {
       document.cookie = `token=${data.token}; path=/`;
 
       // Redirect to home page
-      router.push("/");
+      router.push("/signin");
     } catch (err: any) {
       setError(err.message);
+      setLoading(false);
     }
   };
 
@@ -69,7 +72,7 @@ export default function SignUpPage() {
               <span className="block sm:inline">{error}</span>
             </div>
           )}
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md  space-y-4">
             <div>
               <label htmlFor="name" className="sr-only">
                 Full name
@@ -85,6 +88,7 @@ export default function SignUpPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
+                autoComplete="name"
               />
             </div>
             <div>
@@ -102,6 +106,7 @@ export default function SignUpPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
+                autoComplete="email"
               />
             </div>
             <div>
@@ -119,6 +124,7 @@ export default function SignUpPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
+                autoComplete="new-password"
               />
             </div>
             <div>
@@ -136,6 +142,7 @@ export default function SignUpPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, confirmPassword: e.target.value })
                 }
+                autoComplete="new-password"
               />
             </div>
           </div>
@@ -143,19 +150,23 @@ export default function SignUpPage() {
           <div className="flex flex-col items-center justify-center w-full">
             <button
               type="submit"
+              disabled={loading}
               className="w-[30vh] lg:w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Sign up
+              {loading ? "Signing in..." : "Sign in"}
             </button>
           </div>
 
           <div className="text-sm text-center w-full">
-            <Link
-              href="/signin"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Already have an account? Sign in
-            </Link>
+            <div className="font-medium ">
+              Already have an account?{" "}
+              <Link
+                href="/signin"
+                className="underline font-medium text-indigo-600 hover:text-indigo-500"
+              >
+                Sign in
+              </Link>
+            </div>
           </div>
         </form>
       </div>

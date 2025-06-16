@@ -11,10 +11,12 @@ export default function SignInPage() {
     password: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // <-- Loading state
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true); // Start loading
 
     try {
       const res = await fetch("/api/auth/signin", {
@@ -31,13 +33,11 @@ export default function SignInPage() {
         throw new Error(data.error || "Something went wrong");
       }
 
-      // Store token in cookie
       document.cookie = `token=${data.token}; path=/`;
-
-      // Redirect to home page
-      router.push("/home");
+      router.push("/home"); // Redirect will stop rendering here
     } catch (err: any) {
       setError(err.message);
+      setLoading(false); // Stop loading if error occurs
     }
   };
 
@@ -58,7 +58,7 @@ export default function SignInPage() {
               <span className="block sm:inline">{error}</span>
             </div>
           )}
-          <div className="rounded-md shadow-sm -space-y-px">
+          <div className="rounded-md space-y-4">
             <div>
               <label htmlFor="email" className="sr-only">
                 Email address
@@ -74,6 +74,7 @@ export default function SignInPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
+                autoComplete="email"
               />
             </div>
             <div>
@@ -91,6 +92,7 @@ export default function SignInPage() {
                 onChange={(e) =>
                   setFormData({ ...formData, password: e.target.value })
                 }
+                autoComplete="password"
               />
             </div>
           </div>
@@ -98,19 +100,23 @@ export default function SignInPage() {
           <div className="flex flex-col items-center justify-center w-full">
             <button
               type="submit"
+              disabled={loading} // Disable during loading
               className="w-[30vh] lg:w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Sign in
+              {loading ? "Signing in..." : "Sign in"}
             </button>
           </div>
 
           <div className="text-sm text-center w-full">
-            <Link
-              href="/signup"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              Don't have an account? Sign up
-            </Link>
+            <div className="font-medium ">
+              Don't have an account?
+              <Link
+                href="/signup"
+                className="ml-1.5 underline font-medium text-indigo-600 hover:text-indigo-500"
+              >
+                Sign up
+              </Link>
+            </div>
           </div>
         </form>
       </div>
