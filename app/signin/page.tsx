@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuthStore } from "../lib/store";
 
 export default function SignInPage() {
   const router = useRouter();
+  const setUser = useAuthStore((state) => state.setUser);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,6 +34,13 @@ export default function SignInPage() {
       if (!res.ok) {
         throw new Error(data.error || "Something went wrong");
       }
+
+      // Update auth store with user data
+      setUser({
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+      });
 
       document.cookie = `token=${data.token}; path=/`;
       router.push("/home"); // Redirect will stop rendering here

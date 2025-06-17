@@ -9,6 +9,7 @@ import {
 import { format } from "date-fns";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Task, TaskStatus } from "../types";
+import { useAuthStore } from "../lib/store";
 
 interface TaskBoardProps {
   onEditTask: (task: Task) => void;
@@ -24,11 +25,31 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
+  const { isAuthenticated } = useAuthStore();
+
+  // Listen for authentication state changes
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setTasks([]);
+      setError("Please sign in to view tasks");
+    } else {
+      fetchTasks();
+    }
+  }, [isAuthenticated]);
 
   const fetchTasks = async () => {
     try {
       setLoading(true);
       setError("");
+
+      // Check if user is authenticated
+      const { isAuthenticated } = useAuthStore.getState();
+      if (!isAuthenticated) {
+        setError("Please sign in to view tasks");
+        setTasks([]);
+        return;
+      }
+
       const response = await fetch("/api/tasks");
 
       if (!response.ok) {

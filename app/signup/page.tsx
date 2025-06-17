@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuthStore } from "../lib/store";
 
 export default function SignUpPage() {
   const router = useRouter();
+  const setUser = useAuthStore((state) => state.setUser);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,10 +20,11 @@ export default function SignUpPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setLoading(true); // Start loading
+    setLoading(true);
 
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
+      setLoading(false);
       return;
     }
 
@@ -44,11 +47,15 @@ export default function SignUpPage() {
         throw new Error(data.error || "Something went wrong");
       }
 
-      // Store token in cookie
-      document.cookie = `token=${data.token}; path=/`;
+      // Update auth store with user data
+      setUser({
+        id: data.user.id,
+        email: data.user.email,
+        name: data.user.name,
+      });
 
-      // Redirect to home page
-      router.push("/signin");
+      document.cookie = `token=${data.token}; path=/`;
+      router.push("/home");
     } catch (err: any) {
       setError(err.message);
       setLoading(false);
