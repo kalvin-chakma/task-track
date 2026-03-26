@@ -40,6 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/app/generated/prisma
-
-/app/generated/prisma
+# If using generated Prisma client inside app (old config), adjust as needed
+# /app/generated/prisma
