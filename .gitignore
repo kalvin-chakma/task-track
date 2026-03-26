@@ -41,4 +41,4 @@ yarn-error.log*
 next-env.d.ts
 
 # If using generated Prisma client inside app (old config), adjust as needed
-# /app/generated/prisma
+/app/generated/prisma
