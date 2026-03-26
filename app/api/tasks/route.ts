@@ -1,95 +1,41 @@
 import { NextResponse } from "next/server";
+import { prisma } from "@/app/lib/prisma";
 import { cookies } from "next/headers";
-import jwt from "jsonwebtoken";
-import Task from "@/app/models/Task";
-import connectDB from "@/app/lib/db";
+import { getUserFromToken } from "@/app/lib/getUser";
 
-export async function POST(req: Request) {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+export async function GET() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  const userId = token && getUserFromToken(token);
 
-    if (!token) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-    };
-    const { title, description, dueDate } = await req.json();
+  const tasks = await prisma.task.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+  });
 
-    // Validate required fields
-    if (!title?.trim()) {
-      return NextResponse.json({ error: "Title is required" }, { status: 400 });
-    }
-    if (!description?.trim()) {
-      return NextResponse.json(
-        { error: "Description is required" },
-        { status: 400 }
-      );
-    }
-    if (!dueDate) {
-      return NextResponse.json(
-        { error: "Due date is required" },
-        { status: 400 }
-      );
-    }
-
-    // Validate date format
-    const date = new Date(dueDate);
-    if (isNaN(date.getTime())) {
-      return NextResponse.json(
-        { error: "Invalid date format" },
-        { status: 400 }
-      );
-    }
-
-    await connectDB();
-    const task = await Task.create({
-      title: title.trim(),
-      description: description.trim(),
-      dueDate: date,
-      userId: decoded.userId,
-      status: "TODO",
-    });
-
-    return NextResponse.json(task);
-  } catch (error) {
-    console.error("Error creating task:", error);
-    if (error instanceof jwt.JsonWebTokenError) {
-      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
-    }
-    return NextResponse.json({ error: "Error creating task" }, { status: 500 });
-  }
+  return NextResponse.json(tasks);
 }
 
-export async function GET(req: Request) {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+export async function POST(req: Request) {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  const userId = token && getUserFromToken(token);
 
-    if (!token) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      userId: string;
-    };
+  const { title, description, dueDate, status } = await req.json();
 
-    await connectDB();
-    const tasks = await Task.find({ userId: decoded.userId })
-      .sort({ createdAt: -1 })
-      .lean();
+  const task = await prisma.task.create({
+    data: {
+      title,
+      description,
+      dueDate: new Date(dueDate),
+      status,
+      user: { connect: { id: userId } },
+    },
+  });
 
-    return NextResponse.json(Array.isArray(tasks) ? tasks : []);
-  } catch (error) {
-    console.error("Error fetching tasks:", error);
-    if (error instanceof jwt.JsonWebTokenError) {
-      return NextResponse.json({ error: "Invalid token" }, { status: 401 });
-    }
-    return NextResponse.json(
-      { error: "Error fetching tasks" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(task);
 }

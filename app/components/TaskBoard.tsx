@@ -62,7 +62,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
     } catch (error) {
       console.error("Error fetching tasks:", error);
       setError(
-        error instanceof Error ? error.message : "Failed to fetch tasks"
+        error instanceof Error ? error.message : "Failed to fetch tasks",
       );
       setTasks([]);
     } finally {
@@ -95,7 +95,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
     } catch (error) {
       console.error("Error deleting task:", error);
       setError(
-        error instanceof Error ? error.message : "Failed to delete task"
+        error instanceof Error ? error.message : "Failed to delete task",
       );
     }
   };
@@ -112,7 +112,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
     const { source, destination, draggableId } = result;
     if (source.droppableId === destination.droppableId) return;
 
-    const task = tasks.find((t) => t._id === draggableId);
+    const task = tasks.find((t) => t.id === draggableId);
     if (!task) return;
 
     // Optimistic update
@@ -121,7 +121,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
       status: destination.droppableId as TaskStatus,
     };
     setTasks((prevTasks) =>
-      prevTasks.map((t) => (t._id === draggableId ? updatedTask : t))
+      prevTasks.map((t) => (t.id === draggableId ? updatedTask : t)),
     );
 
     try {
@@ -138,7 +138,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
     } catch (error) {
       console.error("Error updating task status:", error);
       setError(
-        error instanceof Error ? error.message : "Failed to update task status"
+        error instanceof Error ? error.message : "Failed to update task status",
       );
       // Revert optimistic update on error
     }
@@ -199,8 +199,8 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
                 >
                   {columnTasks.map((task, index) => (
                     <Draggable
-                      key={task._id}
-                      draggableId={task._id!}
+                      key={task.id}
+                      draggableId={task.id!}
                       index={index}
                     >
                       {(provided, snapshot) => (
@@ -228,7 +228,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
                               <FaEdit />
                             </button>
                             <button
-                              onClick={() => handleDeleteTask(task._id!)}
+                              onClick={() => handleDeleteTask(task.id!)}
                               className="text-red-500 hover:text-red-700 transition-colors duration-200"
                             >
                               <FaTrash />

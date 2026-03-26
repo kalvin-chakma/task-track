@@ -8,7 +8,7 @@ export interface User {
 }
 
 export interface Task {
-  _id?: string;
+  id?: string;
   title: string;
   description: string;
   dueDate: string;
@@ -21,7 +21,7 @@ export interface Task {
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "COMPLETED";
 
 export interface TaskFormData {
-  _id?: string;
+  id?: string;
   title: string;
   description: string;
   dueDate: string;

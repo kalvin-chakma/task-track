@@ -3,14 +3,7 @@ import React, { useCallback, useState } from "react";
 import TaskForm from "../components/TaskForm";
 import TaskBoard from "../components/TaskBoard";
 import Navbar from "../components/navbar";
-
-interface Task {
-  _id?: string;
-  title: string;
-  description: string;
-  dueDate: string;
-  status: "TODO" | "IN_PROGRESS" | "COMPLETED";
-}
+import { Task } from "../types";
 
 const HomePage = () => {
   const [showForm, setShowForm] = useState(false);
@@ -31,7 +24,7 @@ const HomePage = () => {
     } catch (error) {
       console.error("Error refreshing tasks:", error);
       setError(
-        error instanceof Error ? error.message : "Failed to refresh tasks"
+        error instanceof Error ? error.message : "Failed to refresh tasks",
       );
     }
   }, []);
@@ -55,7 +48,7 @@ const HomePage = () => {
     } catch (error) {
       console.error("Error creating task:", error);
       setError(
-        error instanceof Error ? error.message : "Failed to create task"
+        error instanceof Error ? error.message : "Failed to create task",
       );
     }
   };
@@ -63,10 +56,10 @@ const HomePage = () => {
   const handleEditTask = async (task: Task) => {
     try {
       setError("");
-      if (!task._id) {
+      if (!task.id) {
         throw new Error("Task ID is missing");
       }
-      const response = await fetch(`/api/tasks/${task._id}`, {
+      const response = await fetch(`/api/tasks/${task.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task),
@@ -82,7 +75,7 @@ const HomePage = () => {
     } catch (error) {
       console.error("Error updating task:", error);
       setError(
-        error instanceof Error ? error.message : "Failed to update task"
+        error instanceof Error ? error.message : "Failed to update task",
       );
     }
   };

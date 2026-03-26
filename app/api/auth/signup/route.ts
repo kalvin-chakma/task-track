@@ -1,48 +1,25 @@
 import { NextResponse } from "next/server";
-import connectDB from "@/app/lib/db";
-import User from "@/app/models/User";
-import jwt from "jsonwebtoken";
+import { prisma } from "@/app/lib/prisma";
+import bcrypt from "bcryptjs";
+import { signToken } from "@/app/lib/auth";
 
 export async function POST(req: Request) {
   try {
     const { email, password, name } = await req.json();
 
-    await connectDB();
+    const exists = await prisma.user.findUnique({ where: { email } });
+    if (exists) return NextResponse.json({ error: "User already exists" }, { status: 400 });
 
-    // Check if user already exists by email only
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return NextResponse.json(
-        { error: "User with this email already exists" },
-        { status: 400 }
-      );
-    }
+    const hashed = await bcrypt.hash(password, 10);
 
-    // Create new user
-    const user = await User.create({
-      email,
-      password,
-      name,
+    const user = await prisma.user.create({
+      data: { email, password: hashed, name },
     });
 
-    // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
-      expiresIn: "7d",
-    });
+    const token = signToken({ userId: user.id });
 
-    return NextResponse.json(
-      {
-        message: "Sign up successful",
-        token,
-        user: {
-          id: user._id,
-          email: user.email,
-          name: user.name,
-        },
-      },
-      { status: 201 }
-    );
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ token, user }, { status: 201 });
+  } catch {
+    return NextResponse.json({ error: "Signup failed" }, { status: 500 });
   }
 }

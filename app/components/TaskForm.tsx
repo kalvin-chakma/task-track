@@ -22,7 +22,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
   useEffect(() => {
     if (task) {
       setFormData({
-        _id: task._id,
+        id: task.id,
         title: task.title,
         description: task.description,
         dueDate: task.dueDate,
@@ -67,7 +67,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
   };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -176,8 +176,8 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
               ? "Updating..."
               : "Creating..."
             : task
-            ? "Update Task"
-            : "Create Task"}
+              ? "Update Task"
+              : "Create Task"}
         </button>
       </div>
     </form>
