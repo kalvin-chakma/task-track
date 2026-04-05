@@ -184,8 +184,8 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
         }`}
       >
         {Object.entries(columns).map(([status, columnTasks]) => (
-          <div key={status} className="bg-gray-100 rounded-lg p-4">
-            <h2 className="text-xl font-bold mb-4 capitalize text-center">
+          <div key={status} className="bg-card rounded-lg p-4">
+            <h2 className="text-xl font-bold mb-4 capitalize text-center text-foreground">
               {status.toLowerCase().replace("_", " ")}
             </h2>
             <Droppable droppableId={status}>
@@ -194,7 +194,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   className={`space-y-4 min-h-[200px] transition-colors duration-200 ${
-                    snapshot.isDraggingOver ? "bg-gray-200" : ""
+                    snapshot.isDraggingOver ? "bg-popover" : ""
                   }`}
                 >
                   {columnTasks.map((task, index) => (
@@ -208,15 +208,17 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
-                          className={`bg-white p-4 rounded-lg shadow transition-shadow duration-200 ${
+                          className={`bg-popover p-4 rounded-lg shadow transition-shadow duration-200 ${
                             snapshot.isDragging ? "shadow-lg" : ""
                           }`}
                         >
-                          <h3 className="font-semibold">{task.title}</h3>
-                          <p className="text-gray-600 text-sm mt-2">
+                          <h3 className="font-semibold text-foreground">
+                            {task.title}
+                          </h3>
+                          <p className="text-muted-foreground text-sm mt-2">
                             {task.description}
                           </p>
-                          <p className="text-gray-500 text-xs mt-2">
+                          <p className="text-muted-foreground text-xs mt-2">
                             Due:{" "}
                             {format(new Date(task.dueDate), "MMM dd, yyyy")}
                           </p>

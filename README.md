@@ -8,10 +8,10 @@
 
 | Layer       | Technology                    |
 | ----------- | ----------------------------- |
-| Frontend    | Next.js (React 19)            |
+| Frontend    | Next.js (React) + shadcn ui   |
 | Styling     | Tailwind CSS                  |
 | Backend     | Node.js + Next.js API Routes  |
-| Database    | MongoDB + Mongoose ORM        |
+| Database    | Prisma + NeonDB(PostgreSQL)   |
 | Auth        | JWT + bcryptjs + cookies-next |
 | Drag & Drop | @hello-pangea/dnd             |
 
@@ -39,11 +39,9 @@ yarn install
 Create a `.env` file at the root of the project with the following:
 
 ```env
-MONGODB_URI=your_mongodb_connection_string
+DATABASE_URL=your_neonDB_connection_string
 JWT_SECRET=your_jwt_secret_key
 ```
-
-Make sure MongoDB is running locally or replace with your cloud MongoDB URI.
 
 ### ▶️ 4. Start the development server
 
@@ -65,7 +63,7 @@ All API endpoints are available under `/api`.
 
 #### POST `/api/auth/signup`
 
-**Description**: Register a new user
+**Description**: Signup a new user
 
 **Request Body**:
 
@@ -87,7 +85,7 @@ All API endpoints are available under `/api`.
 
 #### POST `/api/auth/signin`
 
-**Description**: Login with credentials
+**Description**: Signin with credentials
 
 **Request Body**:
 

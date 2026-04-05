@@ -17,6 +17,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ token, user });
   } catch {
-    return NextResponse.json({ error: "Login failed" }, { status: 500 });
+    return NextResponse.json({ error: "signin failed" }, { status: 500 });
   }
 }

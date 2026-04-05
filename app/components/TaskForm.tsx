@@ -76,7 +76,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl mx-auto space-y-4 p-4 bg-white rounded-lg shadow flex flex-col justify-between"
+      className="w-full max-w-2xl mx-auto space-y-4 p-4 bg-card rounded-lg shadow flex flex-col justify-between"
     >
       {error && (
         <div className="bg-red-50 text-red-500 p-3 rounded-md text-sm">
@@ -87,7 +87,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
         <div>
           <label
             htmlFor="title"
-            className="text-sm font-medium text-gray-700 ml-1"
+            className="text-sm font-medium text-foreground ml-1"
           >
             Task Title
           </label>
@@ -98,14 +98,14 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
             value={formData.title}
             onChange={handleChange}
             required
-            className="mt-1 w-full rounded-md border p-2"
+            className="mt-1 w-full rounded-md border border-border bg-background text-foreground p-2"
           />
         </div>
 
         <div>
           <label
             htmlFor="description"
-            className="text-sm font-medium text-gray-700 ml-1"
+            className="text-sm font-medium text-foreground ml-1"
           >
             Description
           </label>
@@ -116,14 +116,14 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
             onChange={handleChange}
             required
             rows={4}
-            className="mt-1 w-full rounded-md border p-2"
+            className="mt-1 w-full rounded-md border border-border bg-background text-foreground p-2"
           />
         </div>
 
         <div>
           <label
             htmlFor="dueDate"
-            className="block text-sm font-medium text-gray-700 ml-1"
+            className="block text-sm font-medium text-foreground ml-1"
           >
             Due Date
           </label>
@@ -134,14 +134,14 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
             value={formData.dueDate}
             onChange={handleChange}
             required
-            className="mt-1 w-full rounded-md border p-2"
+            className="mt-1 w-full rounded-md border border-border bg-background text-foreground p-2"
           />
         </div>
 
         <div>
           <label
             htmlFor="status"
-            className="block text-sm font-medium text-gray-700 ml-1"
+            className="block text-sm font-medium text-foreground ml-1"
           >
             Status
           </label>
@@ -150,7 +150,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
             name="status"
             value={formData.status}
             onChange={handleChange}
-            className="mt-1 w-full rounded-md border p-2"
+            className="mt-1 w-full rounded-md border border-border bg-background text-foreground p-2"
           >
             <option value="TODO">To Do</option>
             <option value="IN_PROGRESS">In Progress</option>
