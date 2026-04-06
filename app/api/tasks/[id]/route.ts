@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { getUserFromToken } from "@/app/lib/getUser";
 
 export async function PUT(req: Request, { params }: any) {
+  const { id } = await params;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const userId = token && getUserFromToken(token);
@@ -13,7 +14,7 @@ export async function PUT(req: Request, { params }: any) {
   const { title, description, dueDate, status } = await req.json();
 
   const task = await prisma.task.updateMany({
-    where: { id: params.id, userId },
+    where: { id, userId },
     data: { title, description, dueDate: new Date(dueDate), status },
   });
 
@@ -23,13 +24,14 @@ export async function PUT(req: Request, { params }: any) {
 }
 
 export async function DELETE(req: Request, { params }: any) {
+  const { id } = await params;
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const userId = token && getUserFromToken(token);
 
   if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  await prisma.task.deleteMany({ where: { id: params.id, userId } });
+  await prisma.task.deleteMany({ where: { id, userId } });
 
   return NextResponse.json({ success: true });
 }

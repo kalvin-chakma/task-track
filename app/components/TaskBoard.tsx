@@ -193,7 +193,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
                 <div
                   {...provided.droppableProps}
                   ref={provided.innerRef}
-                  className={`space-y-4 min-h-[200px] transition-colors duration-200 ${
+                  className={`space-y-4 min-h-50 transition-colors duration-200 ${
                     snapshot.isDraggingOver ? "bg-popover" : ""
                   }`}
                 >

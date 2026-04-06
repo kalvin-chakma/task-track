@@ -6,15 +6,25 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useAuthStore } from "../lib/store";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface NavbarProps {
   onCreateTask: () => void;
 }
 
 const Navbar = ({ onCreateTask }: NavbarProps) => {
-  const { isAuthenticated, user, logout } = useAuthStore();
+  const { isAuthenticated, user, setUser } = useAuthStore();
   const { resolvedTheme, setTheme } = useTheme();
+  const router = useRouter();
   const isDark = (resolvedTheme ?? "light") === "dark";
+
+  const handleSignOut = () => {
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+
+    setUser(null);
+
+    router.push("/");
+  };
 
   return (
     <div className="w-full">
@@ -35,6 +45,7 @@ const Navbar = ({ onCreateTask }: NavbarProps) => {
               <Moon className="h-4 w-4" />
             )}
           </button>
+
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
               <>
@@ -45,14 +56,16 @@ const Navbar = ({ onCreateTask }: NavbarProps) => {
                   <FaPlus />
                   Create New Task
                 </button>
+
                 <div className="relative group">
-                  <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none  transition-colors">
+                  <button className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 focus:outline-none transition-colors">
                     <FaUser />
                     <span>{user?.name || "Profile"}</span>
                   </button>
+
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     <button
-                      onClick={logout}
+                      onClick={handleSignOut}
                       className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Sign Out
@@ -61,15 +74,13 @@ const Navbar = ({ onCreateTask }: NavbarProps) => {
                 </div>
               </>
             ) : (
-              <div className="">
-                <Link
-                  href="/signin"
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700 "
-                >
-                  <FaUser />
-                  Sign In
-                </Link>
-              </div>
+              <Link
+                href="/signin"
+                className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700"
+              >
+                <FaUser />
+                Sign In
+              </Link>
             )}
           </div>
         </div>
