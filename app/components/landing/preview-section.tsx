@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Calendar, GripVertical } from "lucide-react";
+import Header from "./header";
 
 const initialTasks = {
   todo: [
@@ -62,22 +63,24 @@ const columnTitles: Record<string, string> = {
   completed: "Completed",
 };
 
-export function PreviewSection() {
+export function PreviewSection({ className }: { className?: string }) {
   const [tasks] = useState(initialTasks);
 
   return (
-    <section className="py-20 md:py-28">
+    <section className={`py-20${className || ""}`}>
       <div className="container mx-auto px-4">
         {/* Section header */}
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <h2 className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
-            A beautiful Kanban experience
-          </h2>
-          <p className="mt-4 text-pretty text-muted-foreground">
-            See your tasks at a glance and move them through your workflow with
-            ease.
-          </p>
-        </div>
+        <Header
+          className="mx-auto mb-12 max-w-2xl text-center "
+          variant="section"
+          title={
+            <span className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
+              A beautiful Kanban experience
+            </span>
+          }
+          subtitle="See your tasks at a glance and move them through your workflow with ease."
+          subtitleClass="mx-auto"
+        />
 
         {/* Kanban preview */}
         <div className="mx-auto max-w-5xl">

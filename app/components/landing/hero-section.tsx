@@ -3,6 +3,7 @@
 import { Button } from "../ui/button";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import Header from "./header";
 
 export function HeroSection() {
   return (
@@ -13,17 +14,19 @@ export function HeroSection() {
       <div className="container relative mx-auto px-4">
         <div className="flex flex-col items-center text-center">
           {/* Main heading */}
-          <h1 className="max-w-4xl text-balance text-4xl font-bold tracking-tight md:text-6xl lg:text-7xl">
-            <span className="text-foreground">The complete platform to </span>
-            <span className="text-primary">track your tasks</span>
-          </h1>
-
-          {/* Subtitle */}
-          <p className="mt-6 max-w-2xl text-pretty text-lg text-muted-foreground md:text-xl">
-            Organize, prioritize, and complete your work with a beautiful Kanban
-            board. Drag and drop tasks between columns as they progress from To
-            Do to Completed.
-          </p>
+          <Header
+            variant="hero"
+            className="text-center"
+            title={
+              <>
+                <span className="text-foreground">
+                  The complete platform to{" "}
+                </span>
+                <span className="text-primary">track your tasks</span>
+              </>
+            }
+            subtitle="Organize, prioritize, and complete your work with a beautiful Kanban board. Drag and drop tasks between columns as they progress from To Do to Completed."
+          />
 
           {/* CTA Buttons */}
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">

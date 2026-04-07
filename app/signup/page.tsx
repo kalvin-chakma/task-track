@@ -18,6 +18,7 @@ import {
 import TextInput from "@/app/components/formInput";
 import PasswordInput from "@/app/components/formInput";
 import FormInput from "@/app/components/formInput";
+import Header from "../components/landing/header";
 
 const features = [
   {
@@ -113,22 +114,26 @@ export default function SignUpPage() {
             </span>
           </div>
 
-          <div className="mt-16 mb-10">
-            <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="text-xs text-primary font-medium tracking-wide uppercase">
-                Built For managing daily tasks easily.
-              </span>
-            </div>
-            <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 dark:text-white leading-[1.1] mb-4">
-              The complete platform to{" "}
-              <span className="text-primary">track your tasks</span>
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 text-base leading-relaxed max-w-sm">
-              Organize, prioritize, and complete your work with a beautiful
-              Kanban board. Drag and drop tasks as they progress.
-            </p>
-          </div>
+          <Header
+            className="mt-16 mb-10"
+            variant="section"
+            badge={
+              <>
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="text-xs text-primary font-medium tracking-wide uppercase">
+                  Built for managing daily tasks easily
+                </span>
+              </>
+            }
+            title={
+              <>
+                The complete platform to{" "}
+                <span className="text-primary">track your tasks</span>
+              </>
+            }
+            subtitleClass="max-w-xl"
+            subtitle="Organize, prioritize, and complete your work with a beautiful Kanban board. Drag and drop tasks as they progress."
+          />
 
           <div className="grid grid-cols-2 gap-3">
             {features.map(({ icon: Icon, title, desc }) => (
