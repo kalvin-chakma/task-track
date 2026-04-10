@@ -20,7 +20,7 @@ export default function SignInForm({
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   return (
-    <div className="flex-1 flex items-center justify-center px-6 py-12 sm:px-10 lg:px-16 relative overflow-hidden bg-[#0d0d0d]">
+    <div className="flex-1 flex items-center justify-center px-6 py-12 sm:px-10 lg:px-16 relative overflow-hidden bg-gray-50 dark:bg-background">
       <div className="relative z-10 w-full max-w-md">
         {/* Mobile Logo */}
         <div className="flex lg:hidden items-center gap-2 mb-8">
@@ -37,7 +37,7 @@ export default function SignInForm({
           <p className="text-xs text-primary uppercase tracking-widest font-semibold mb-3">
             Sign in to continue
           </p>
-          <h1 className="text-4xl font-black text-white mb-2 tracking-tight">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-foreground mb-1.5">
             Welcome back.
           </h1>
           <p className="text-[#555] text-sm">
@@ -52,8 +52,7 @@ export default function SignInForm({
         </div>
 
         {/* Form Card */}
-        <div className="bg-[#141414] border border-white/8 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-8 right-8 h-px bg-linear-to-r from-transparent via-primary/50 to-transparent" />
+        <div className="bg-white dark:bg-card border border-gray-200 dark:border-border rounded-2xl p-8 shadow-xl shadow-black/5">
           <form
             className="space-y-5"
             onSubmit={(e) => {
@@ -107,7 +106,7 @@ export default function SignInForm({
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary hover:bg-primary/90 disabled:bg-primary/40 text-[#080808] font-bold py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group mt-2 text-sm"
+              className="w-full bg-primary hover:bg-primary/90 disabled:bg-primary/50 text-primary-foreground font-semibold py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm mt-2"
             >
               {loading ? (
                 <>
@@ -128,7 +127,7 @@ export default function SignInForm({
                 <div className="w-full border-t border-white/6" />
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="px-3 bg-[#141414] text-[#444]">
+                <span className="px-3 dark:bg-card text-[#444]">
                   New to TaskTracker?
                 </span>
               </div>
@@ -136,7 +135,7 @@ export default function SignInForm({
 
             <Link
               href="/signup"
-              className="w-full block text-center px-4 py-3 rounded-lg border border-white/8 hover:bg-white/4 hover:border-white/12 transition-all text-[#888] hover:text-white font-medium text-sm"
+              className="w-full block text-center px-4 py-3 rounded-lg border hover:bg-zinc-200 hover:text-zinc-400 border-zinc-300 dark:border-white/8 dark:hover:bg-white/4 dark:hover:border-white/12 transition-all text-[#888] dark:hover:text-white font-medium text-sm "
             >
               Create Account
             </Link>

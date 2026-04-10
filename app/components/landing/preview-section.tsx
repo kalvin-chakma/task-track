@@ -71,10 +71,10 @@ export function PreviewSection({ className }: { className?: string }) {
       <div className="container mx-auto px-4">
         {/* Section header */}
         <Header
-          className="mx-auto mb-12 max-w-2xl text-center "
+          className="mx-auto mb-12 max-w-2xl text-center"
           variant="section"
           title={
-            <span className="text-balance text-3xl font-bold tracking-tight md:text-4xl">
+            <span className="text-3xl font-bold tracking-tight text-balance md:text-4xl">
               A beautiful Kanban experience
             </span>
           }
@@ -102,16 +102,16 @@ export function PreviewSection({ className }: { className?: string }) {
                     {tasks[column].map((task) => (
                       <div
                         key={task.id}
-                        className="group cursor-grab rounded-lg border border-border bg-background p-3 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 active:cursor-grabbing"
+                        className="group border-border bg-background hover:border-primary/50 hover:shadow-primary/5 rounded-lg border p-3 transition-all hover:shadow-lg active:cursor-grabbing"
                       >
                         <div className="flex items-start gap-2">
-                          <GripVertical className="mt-0.5 h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                          <GripVertical className="text-muted-foreground mt-0.5 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
                           <div className="flex-1 space-y-2">
-                            <p className="text-sm font-medium leading-tight">
+                            <p className="text-sm leading-tight font-medium">
                               {task.title}
                             </p>
                             <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <div className="text-muted-foreground flex items-center gap-1 text-xs">
                                 <Calendar className="h-3 w-3" />
                                 <span>{task.dueDate}</span>
                               </div>

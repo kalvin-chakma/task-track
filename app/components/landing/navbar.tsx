@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { CheckSquare, Menu, X, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import App from "@/app/page";
+import AppLogo from "../logo";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -22,11 +24,8 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-sm">
       <nav className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <CheckSquare className="h-5 w-5 text-primary-foreground" />
-          </div>
-          <span className="text-lg font-bold">Task-Tracker</span>
+        <Link href="/" className="flex items-center justify-center gap-2">
+          <AppLogo className="h-8 w-auto " />
         </Link>
 
         {/* Desktop navigation */}
