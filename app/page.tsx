@@ -1,4 +1,4 @@
-import { Navbar } from "../app/components/landing/navbar";
+import { Navbar } from "./components/landing/navbar";
 import { HeroSection } from "../app/components/landing/hero-section";
 import { FeaturesSection } from "../app/components/landing/features-section";
 import { PreviewSection } from "../app/components/landing/preview-section";
@@ -8,7 +8,7 @@ import { Footer } from "../app/components/landing/footer";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <Navbar />
       <main>
         <HeroSection />

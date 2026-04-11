@@ -33,7 +33,7 @@ export default function SignUpLeftPanel() {
       <div className="absolute right-1/4 bottom-1/4 h-56 w-56 rounded-full blur-[80px] dark:bg-emerald-500/10" />
 
       <div className="dark:text-foreground relative z-10 flex h-full flex-col text-gray-900">
-        <AppLogo className="mb-6" />
+        <AppLogo />
 
         <Header
           className="mt-16 mb-10"

@@ -11,7 +11,7 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   setUser: (user: User | null) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -20,7 +20,17 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
       setUser: (user) => set({ user, isAuthenticated: !!user }),
-      logout: () => set({ user: null, isAuthenticated: false }),
+      logout: async () => {
+        if (typeof window !== "undefined") {
+          try {
+            await fetch("/api/auth/logout", { method: "POST" });
+          } catch {
+            
+          }
+          document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+        set({ user: null, isAuthenticated: false });
+      },
     }),
     {
       name: "auth-storage",

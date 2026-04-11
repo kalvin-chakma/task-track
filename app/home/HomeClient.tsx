@@ -1,8 +1,8 @@
 "use client";
-import React, { useCallback, useState } from "react";
-import TaskForm from "../components/TaskForm";
-import TaskBoard from "../components/TaskBoard";
-import Navbar from "../components/navbar";
+import React, { Suspense, useCallback, useState } from "react";
+import TaskForm from "../components/tasks/TaskForm";
+import TaskBoard from "../components/tasks/TaskBoard";
+import { Navbar } from "../components/landing/navbar";
 import { Task } from "../types";
 
 const HomeClient = () => {
@@ -81,20 +81,20 @@ const HomeClient = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
+    <div className="bg-background min-h-screen">
+      <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-0">
           <Navbar onCreateTask={() => setShowForm(true)} />
 
           {error && (
-            <div className="mb-4 bg-red-50 text-red-500 p-3 rounded-md text-sm">
+            <div className="mb-4 rounded-md bg-red-50 p-3 text-sm text-red-500">
               {error}
             </div>
           )}
 
           {(showForm || editingTask) && (
-            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50 p-4">
-              <div className="w-full max-w-2xl bg-white rounded-lg shadow-lg">
+            <div className="bg-opacity-75 fixed inset-0 z-50 flex items-center justify-center bg-gray-500 p-4">
+              <div className="w-full max-w-2xl rounded-lg bg-white shadow-lg">
                 <TaskForm
                   task={editingTask}
                   onSubmit={editingTask ? handleEditTask : handleCreateTask}

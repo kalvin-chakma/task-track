@@ -34,7 +34,7 @@ export default function SignInLeftPanel() {
 
       <div className="relative z-10 flex h-full flex-col">
         {/* Logo */}
-        <AppLogo className="mb-6" />
+        <AppLogo />
 
         {/* Headline */}
         <Header
