@@ -206,7 +206,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
-                              className="group bg-background rounded-lg border p-3"
+                              className="group bg-background rounded-lg border p-3 shadow-sm"
                             >
                               <div className="relative mt-2 flex gap-2">
                                 <div className="flex items-start gap-2">
@@ -233,23 +233,25 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
                                   </div>
                                 </div>
 
-                                <div className="absolute right-0 bottom-0 flex gap-3">
+                                <div className="absolute right-0 bottom-0 flex items-center gap-3">
+                                  {/* Edit Button */}
                                   <div className="group/edit relative">
                                     <FaEdit
                                       onClick={() => onEditTask(task)}
-                                      className="cursor-pointer transition-colors hover:text-green-500"
+                                      className="cursor-pointer text-zinc-400 transition-colors duration-200 hover:text-green-500"
                                     />
-                                    <span className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded bg-zinc-700 px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover/edit:opacity-100">
+                                    <span className="pointer-events-none absolute bottom-7 left-1/2 -translate-x-1/2 rounded bg-zinc-800 px-2 py-1 text-xs whitespace-nowrap text-white opacity-0 shadow-md transition-opacity duration-200 group-hover/edit:opacity-100">
                                       Edit
                                     </span>
                                   </div>
 
+                                  {/* Delete Button */}
                                   <div className="group/delete relative">
                                     <FaTrash
                                       onClick={() => handleDeleteTask(task.id!)}
-                                      className="cursor-pointer text-red-500 transition-colors hover:text-red-700"
+                                      className="cursor-pointer text-red-400 transition-colors duration-200 hover:text-red-600"
                                     />
-                                    <span className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded bg-zinc-700 px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover/delete:opacity-100">
+                                    <span className="pointer-events-none absolute bottom-7 left-1/2 -translate-x-1/2 rounded bg-zinc-800 px-2 py-1 text-xs whitespace-nowrap text-white opacity-0 shadow-md transition-opacity duration-200 group-hover/delete:opacity-100">
                                       Delete
                                     </span>
                                   </div>

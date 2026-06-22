@@ -31,7 +31,7 @@ export default function FormInput({
     <div className="space-y-1.5">
       <label
         htmlFor={id}
-        className="block text-sm font-medium text-gray-900 dark:text-foreground"
+        className="dark:text-foreground block text-sm font-medium text-gray-900"
       >
         {label}
       </label>
@@ -45,7 +45,7 @@ export default function FormInput({
           placeholder={placeholder || (isPassword ? "••••••••" : "")}
           autoComplete={autoComplete}
           required={required}
-          className={`w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-secondary border border-gray-300 dark:border-border focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm ${
+          className={`dark:bg-secondary dark:border-border w-full rounded-lg border px-4 py-3 text-sm focus:outline-none ${
             isPassword ? "pr-10" : ""
           }`}
         />
@@ -54,12 +54,12 @@ export default function FormInput({
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 dark:text-muted-foreground hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+            className="dark:text-muted-foreground absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 transition-colors hover:text-gray-700 dark:hover:text-gray-300"
           >
             {showPassword ? (
-              <EyeOff className="w-5 h-5" />
+              <EyeOff className="h-5 w-5" />
             ) : (
-              <Eye className="w-5 h-5" />
+              <Eye className="h-5 w-5" />
             )}
           </button>
         )}

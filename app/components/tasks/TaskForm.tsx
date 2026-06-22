@@ -123,7 +123,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
               onChange={handleChange}
               required
               placeholder="Enter task title..."
-              className="border-border bg-input text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary/20 w-full rounded-lg border px-4 py-3 transition-all focus:ring-2 focus:outline-none"
+              className="border-border bg-input text-foreground placeholder:text-muted-foreground w-full rounded-lg border px-4 py-3 transition-all focus:outline-none"
             />
           </div>
 
@@ -143,7 +143,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
               required
               rows={4}
               placeholder="Describe your task in detail..."
-              className="border-border bg-input text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary/20 w-full resize-none rounded-lg border px-4 py-3 transition-all focus:ring-2 focus:outline-none"
+              className="border-border bg-input text-foreground placeholder:text-muted-foreground w-full resize-none rounded-lg border px-4 py-3 transition-all focus:outline-none"
             />
           </div>
 
@@ -164,7 +164,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
                 value={formData.dueDate}
                 onChange={handleChange}
                 required
-                className="border-border bg-input text-foreground focus:border-primary focus:ring-primary/20 w-full rounded-lg border px-4 py-3 transition-all focus:ring-2 focus:outline-none"
+                className="border-border bg-input text-foreground w-full rounded-lg border px-4 py-3 transition-all focus:outline-none"
               />
             </div>
 
@@ -181,7 +181,7 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
                 name="status"
                 value={formData.status}
                 onChange={handleChange}
-                className="border-border bg-input text-foreground focus:border-primary focus:ring-primary/20 w-full cursor-pointer appearance-none rounded-lg border px-4 py-3 transition-all focus:ring-2 focus:outline-none"
+                className="border-border bg-input text-foreground w-full cursor-pointer appearance-none rounded-lg border px-4 py-3 transition-all focus:outline-none"
               >
                 <option value="TODO">To Do</option>
                 <option value="IN_PROGRESS">In Progress</option>
@@ -196,14 +196,14 @@ const TaskForm = ({ task, onSubmit, onCancel }: TaskFormProps) => {
           <button
             type="button"
             onClick={onCancel}
-            className="border-border bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-primary/20 rounded-lg border px-6 py-2.5 text-sm font-medium transition-colors focus:ring-2 focus:outline-none"
+            className="border-border bg-secondary text-secondary-foreground hover:bg-secondary/90 focus:ring-primary/20 rounded-lg border px-6 py-2.5 text-sm font-medium transition-colors focus:outline-none"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={isLoading}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/50 flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-medium transition-colors focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
+            className="bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary/50 flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-medium transition-colors focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isLoading ? (
               <>
