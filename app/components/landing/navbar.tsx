@@ -107,8 +107,14 @@ export function Navbar({ onCreateTask }: NavbarProps) {
 
                 <div className="bg-background border-border invisible absolute right-0 mt-2 w-40 rounded-md border opacity-0 shadow-md transition-all duration-200 group-hover:visible group-hover:opacity-100">
                   <button
+                    onClick={() => router.push("/home")}
+                    className="w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-neutral-800"
+                  >
+                    Home
+                  </button>
+                  <button
                     onClick={handleLogout}
-                    className="hover:bg-accent/10 w-full px-4 py-2 text-left text-sm"
+                    className="w-full cursor-pointer px-4 py-2 text-left text-sm hover:bg-gray-100 dark:hover:bg-neutral-800"
                   >
                     Sign Out
                   </button>
