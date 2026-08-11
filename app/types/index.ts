@@ -13,12 +13,23 @@ export interface Task {
   description: string;
   dueDate: string;
   status: TaskStatus;
+  boardId?: string;
   userId?: string;
   createdAt?: string;
   updatedAt?: string;
 }
 
 export type TaskStatus = "TODO" | "IN_PROGRESS" | "COMPLETED";
+
+export type BoardRole = "OWNER" | "EDITOR" | "VIEWER";
+
+export interface Board {
+  id: string;
+  name: string;
+  role: BoardRole;
+  ownerId: string;
+  createdAt?: string;
+}
 
 export interface TaskFormData {
   id?: string;

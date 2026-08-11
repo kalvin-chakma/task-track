@@ -1,19 +1,39 @@
 "use client";
-import React, { Suspense, useCallback, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 import TaskForm from "../components/tasks/TaskForm";
 import TaskBoard from "../components/tasks/TaskBoard";
 import { Navbar } from "../components/landing/navbar";
-import { Task } from "../types";
+import { Task, Board } from "../types";
 
 const HomeClient = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | undefined>();
   const [error, setError] = useState<string>("");
   const [refreshTrigger, setRefreshTrigger] = useState(0);
+  const [boardId, setBoardId] = useState<string | null>(null);
+  const [boardsLoading, setBoardsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadBoards = async () => {
+      try {
+        const response = await fetch("/api/boards");
+        if (!response.ok) throw new Error("Failed to load boards");
+        const boards: Board[] = await response.json();
+        setBoardId(boards[0]?.id ?? null);
+      } catch (err) {
+        console.error("Error loading boards:", err);
+        setError("Failed to load your boards");
+      } finally {
+        setBoardsLoading(false);
+      }
+    };
+    loadBoards();
+  }, []);
 
   const refreshTasks = useCallback(async () => {
+    if (!boardId) return;
     try {
-      const response = await fetch("/api/tasks");
+      const response = await fetch(`/api/tasks?boardId=${boardId}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Failed to fetch tasks");
@@ -27,15 +47,16 @@ const HomeClient = () => {
         error instanceof Error ? error.message : "Failed to refresh tasks",
       );
     }
-  }, []);
+  }, [boardId]);
 
   const handleCreateTask = async (task: Task) => {
+    if (!boardId) return;
     try {
       setError("");
       const response = await fetch("/api/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task),
+        body: JSON.stringify({ ...task, boardId }),
       });
 
       if (!response.ok) {
@@ -107,11 +128,18 @@ const HomeClient = () => {
             </div>
           )}
 
-          <TaskBoard
-            onEditTask={setEditingTask}
-            refreshTasks={refreshTasks}
-            key={refreshTrigger}
-          />
+          {!boardsLoading && !boardId ? (
+            <div className="text-muted-foreground mt-5 text-center">
+              No board found for your account.
+            </div>
+          ) : (
+            <TaskBoard
+              boardId={boardId}
+              onEditTask={setEditingTask}
+              refreshTasks={refreshTasks}
+              key={refreshTrigger}
+            />
+          )}
         </div>
       </div>
     </div>

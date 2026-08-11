@@ -20,7 +20,45 @@ model User {
   name      String
   createdAt DateTime @default(now())
 
-  tasks     Task[]
+  ownedBoards Board[]       @relation("BoardOwner")
+  memberships BoardMember[]
+  tasks       Task[]
+}
+
+model Board {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ownerId String
+  owner   User   @relation("BoardOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  members BoardMember[]
+  tasks   Task[]
+
+  @@index([ownerId])
+}
+
+enum BoardRole {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+model BoardMember {
+  id        String    @id @default(uuid())
+  role      BoardRole
+  createdAt DateTime  @default(now())
+
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([boardId, userId])
+  @@index([userId])
 }
 
 model Task {
@@ -32,8 +70,13 @@ model Task {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  boardId String
+  board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+
   userId String
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([boardId])
 }
 
 enum Status {

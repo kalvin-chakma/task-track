@@ -47,7 +47,6 @@ export default function SignUpPage() {
         email: data.user.email,
         name: data.user.name,
       });
-      document.cookie = `token=${data.token}; path=/`;
       router.push("/home");
     } catch (err: any) {
       setError(err.message);

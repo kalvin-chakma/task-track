@@ -22,6 +22,7 @@ import { Calendar, GripVertical } from "lucide-react";
 import Loading from "./loading";
 
 interface TaskBoardProps {
+  boardId: string | null;
   onEditTask: (task: Task) => void;
   refreshTasks: () => Promise<void>;
 }
@@ -42,23 +43,20 @@ const columnColors = {
   COMPLETED: "border-green-500",
 };
 
-const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
+const TaskBoard = ({ boardId, onEditTask, refreshTasks }: TaskBoardProps) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
   const [isDragging, setIsDragging] = useState(false);
   const { isAuthenticated } = useAuthStore();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      setTasks([]);
-      setError("Please sign in to view tasks");
-    } else {
-      fetchTasks();
-    }
-  }, [isAuthenticated]);
-
   const fetchTasks = async () => {
+    if (!boardId) {
+      setTasks([]);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       setError("");
@@ -70,7 +68,7 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
         return;
       }
 
-      const response = await fetch("/api/tasks");
+      const response = await fetch(`/api/tasks?boardId=${boardId}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -90,14 +88,16 @@ const TaskBoard = ({ onEditTask, refreshTasks }: TaskBoardProps) => {
     }
   };
 
+  // Re-fetch whenever auth state, board, or refreshTasks reference changes (e.g. after create/edit)
   useEffect(() => {
+    if (!isAuthenticated) {
+      setTasks([]);
+      setError("Please sign in to view tasks");
+      setLoading(false);
+      return;
+    }
     fetchTasks();
-  }, []);
-
-  // Re-fetch whenever refreshTasks reference changes (e.g. after create/edit)
-  useEffect(() => {
-    fetchTasks();
-  }, [refreshTasks]);
+  }, [isAuthenticated, boardId, refreshTasks]);
 
   const handleDeleteTask = async (taskId: string) => {
     try {
